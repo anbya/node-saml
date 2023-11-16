@@ -68,20 +68,20 @@ app.get('/health', async (req, res) => {
 );
 
 /** Passport & SAML Routes */
-app.get('/login', passport.authenticate('saml', config.saml.options), (req, res, next) => {
+app.get('/login', passport.authenticate('saml-strategy-web', config.saml.optionsWeb), (req, res, next) => {
     return res.redirect(process.env.CLIENT_URL);
 });
 
-app.post('/login/callback', passport.authenticate('saml', config.saml.options), (req, res, next) => {
+app.post('/login/callback', passport.authenticate('saml-strategy-web', config.saml.optionsWeb), (req, res, next) => {
     return res.redirect(process.env.CLIENT_URL);
 });
 
 /** Passport & SAML Routes */
-app.get('/login-pwa', passport.authenticate('saml', config.saml.options), (req, res, next) => {
+app.get('/login-pwa', passport.authenticate('saml-strategy-pwa', config.saml.optionsPwa), (req, res, next) => {
   return res.redirect(process.env.CLIENT_URL1);
 });
 
-app.post('/login-pwa/callback', passport.authenticate('saml', config.saml.options), (req, res, next) => {
+app.post('/login-pwa/callback', passport.authenticate('saml-strategy-pwa', config.saml.optionsPwa), (req, res, next) => {
   return res.redirect(process.env.CLIENT_URL1);
 });
 

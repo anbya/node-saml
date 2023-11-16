@@ -2,9 +2,12 @@ module.exports = {
     saml: {
         cert: './config/saml.pem',
         entryPoint: process.env.SAML_ENTRY_POINT,
-        issuer: process.env.SAML_ISSUER,
-        options: {
+        optionsWeb: {
             failureRedirect: '/login',
+            failureFlash: true
+        },
+        optionsPwa: {
+            failureRedirect: '/login-pwa',
             failureFlash: true
         }
     },
