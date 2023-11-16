@@ -1,6 +1,7 @@
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const express = require("express");
+const session = require('express-session');
 const cookieParser = require("cookie-parser");
 const app = express();
 require("dotenv").config();
@@ -20,6 +21,9 @@ const multer = require('./utils/upload')
 const awss3 = require("./utils/awss3upload");
 
 app.use(cookieParser())
+app.use(session(config.session));
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
@@ -65,11 +69,20 @@ app.get('/health', async (req, res) => {
 
 /** Passport & SAML Routes */
 app.get('/login', passport.authenticate('saml', config.saml.options), (req, res, next) => {
-    return res.redirect('http://localhost:3000');
+    return res.redirect(process.env.CLIENT_URL);
 });
 
 app.post('/login/callback', passport.authenticate('saml', config.saml.options), (req, res, next) => {
-    return res.redirect('http://localhost:3000');
+    return res.redirect(process.env.CLIENT_URL);
+});
+
+/** Passport & SAML Routes */
+app.get('/login-pwa', passport.authenticate('saml', config.saml.options), (req, res, next) => {
+  return res.redirect(process.env.CLIENT_URL1);
+});
+
+app.post('/login-pwa/callback', passport.authenticate('saml', config.saml.options), (req, res, next) => {
+  return res.redirect(process.env.CLIENT_URL1);
 });
 
 app.get('/whoami', (req, res, next) => {

@@ -23,9 +23,10 @@ passport.use(
             protocol: 'http://',
             path: '/login/callback',
             entryPoint: config.saml.entryPoint,
-            cert: fs.readFileSync(config.saml.cert, 'utf-8')
+            cert: fs.readFileSync(config.saml.cert, 'utf-8'),
         },
         (expressUser, done) => {
+            console.log(`expressUser`,expressUser);
             if (!savedUsers.includes(expressUser)) {
                 savedUsers.push(expressUser);
             }
